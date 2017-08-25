@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tensorflow-serving
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tf
+    spec:
+      initContainers:
+      - name: load-model
+        image: skippbox/tensorflow:0.0.1
+        securityContext:
+          privileged: true
+        command: ['/serving/bazel-bin/tensorflow_serving/example/inception_saved_model', '--checkpoint_dir=/mnt/inception-v3', '--output_dir=/serving/inception-export']
+        volumeMounts:
+        - name: model
+          mountPath: "/serving/inception-export"
+        - name: seed
+          mountPath: "/mnt"
+      containers:
+      - name: serving
+        image: bitnami/tf-server-slim:0.0.1
+        ports:
+          - containerPort: 9000
+            protocol: TCP
+        volumeMounts:
+        - name: model
+          mountPath: "/serving/inception-export"
+        - name: seed
+          mountPath: "/mnt"          
+      volumes:
+      - name: seed
+        persistentVolumeClaim:
+          claimName: seed
+      - name: model
+        emptyDir: {}

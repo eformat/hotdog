@@ -1,0 +1,23 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "This code is for the tutorial on building an AJAX file uploader with NodeJs, express, and formidable.",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eformat/file-uploader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eformat/file-uploader/issues"
+  },
+  "homepage": "https://github.com/eformat/file-uploader#readme"
+}
