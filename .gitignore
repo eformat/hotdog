@@ -37,3 +37,4 @@ node_modules
 *~
 *.tar.gz
 *.iml
+uploads/

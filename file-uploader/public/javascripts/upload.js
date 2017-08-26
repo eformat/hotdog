@@ -17,6 +17,12 @@ $('#upload-input').on('change', function(){
     // loop through all the selected files and add them to the formData object
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
+      var string_regex = /.jpg/g;
+      // check file ending
+      if (!file.name.match(string_regex)) {
+        alert('jpg only - Invalid image file: ' + file.name);
+        return;
+      }
 
       // add the files to formData object for the data payload
       formData.append('uploads[]', file, file.name);

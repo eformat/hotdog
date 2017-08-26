@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       labels:
-        app: tf
+        app: tfdemo
       annotations:
         pod.beta.kubernetes.io/init-containers: '[
           {
