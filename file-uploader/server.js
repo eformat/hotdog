@@ -32,7 +32,7 @@ app.post('/upload', function(req, res){
     fs.rename(file.path, path.join(form.uploadDir, file.name));
     // 'docker exec tflow bazel-bin/tensorflow_serving/example/inception_client --server=192.168.137.2:30562 --image=/tmp/' + file.name
     //exec('docker exec tflow bazel-bin/tensorflow_serving/example/inception_client --server=192.168.137.2:32195 --image=/tmp/' + file.name,
-    exec('/serving/bazel-bin/tensorflow_serving/example/inception_client --server=' + model_server + ' --image=/opt/uploads/' + file.name,
+    exec('/opt/bitnami/tensorflow-inception/bazel-bin/tensorflow_serving/example/inception_client --server=' + model_server + ' --image=/opt/uploads/' + file.name,
         function (error, stdout, stderr) {
           var string_regex = /string_val: ([\S ]+)/g;
           var float_regex = /float_val: ([0-9\.]+)/g;

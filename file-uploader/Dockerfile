@@ -1,4 +1,4 @@
-FROM skippbox/tensorflow:0.0.1
+FROM bitnami/tensorflow-inception:latest
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
 RUN apt-get install nodejs
 ADD . /opt

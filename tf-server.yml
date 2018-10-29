@@ -7,36 +7,30 @@ spec:
   template:
     metadata:
       labels:
-        app: tfdemo
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-          {
-             "name": "load-model",
-             "image": "skippbox/tensorflow:0.0.1",
-             "securityContext": {
-               "privileged": true
-             },
-             "command": ["/serving/bazel-bin/tensorflow_serving/example/inception_saved_model","--checkpoint_dir=/mnt/inception-v3","--output_dir=/serving/inception-export"],
-             "imagePullPolicy": "IfNotPresent",
-             "volumeMounts": [
-                { "name": "model", "mountPath": "/serving/inception-export" },
-                { "name": "seed", "mountPath": "/mnt" } ]
-          }
-        ]'
+        app: tensorflow-serving
     spec:
       containers:
       - name: serving
-        image: bitnami/tf-server-slim:0.0.1
+        image: bitnami/tensorflow-serving:latest
         securityContext:
           privileged: true
         ports:
-          - containerPort: 9000
+          - containerPort: 8500
             protocol: TCP
         volumeMounts:
         - name: model
-          mountPath: "/serving/inception-export"
+          mountPath: "/bitnami/model-data"
         - name: seed
-          mountPath: "/mnt"          
+          mountPath: "/mnt"
+      initContainers:
+      - name: load-model
+        image: bitnami/tensorflow-inception:latest
+        command: ["/opt/bitnami/tensorflow-inception/bazel-bin/tensorflow_serving/example/inception_saved_model","--checkpoint_dir=/mnt/inception-v3","--output_dir=/bitnami/model-data"]
+        volumeMounts:
+        - name: model
+          mountPath: "/bitnami/model-data"
+        - name: seed
+          mountPath: "/mnt"
       volumes:
       - name: seed
         persistentVolumeClaim:
